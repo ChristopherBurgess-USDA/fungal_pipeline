@@ -1,0 +1,75 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
+# # TODO nf-core: Add a description of the module and list keywords
+name: "itsxpress"
+description: write your description here
+keywords:
+  - sort
+  - example
+  - genomics
+tools:
+  ## TODO nf-core: Add a description and other details for the software below
+  - "itsxpress":
+      description:
+        "ITSxpress: Software to rapidly trim the Internally Transcribed Spacer\
+        \ (ITS) region from FASTQ files."
+      homepage: "None"
+      documentation: "None"
+      tool_dev_url: "http://github.com/usda-ars-gbru/itsxpress"
+      doi: ""
+      licence: ["CC0-1.0"]
+      identifier: biotools:itsxpress
+
+input:
+  # TODO nf-core: Update the information obtained from bio.tools and make sure that it is correct
+  - - meta:
+        type: map
+        description:
+          Groovy Map containing sample information. e.g. `[ id:'sample1'
+          ]`
+    - nucleic_acid_sequence_(raw):
+        type: file
+        description: nucleic_acid_sequence_(raw) file
+        pattern: "*.{fastq-like}"
+        ontologies:
+          - edam: http://edamontology.org/data_2975 # Nucleic acid sequence (raw)
+          - edam: http://edamontology.org/format_2182 # FASTQ-like format (text)
+output:
+  # TODO nf-core: Update the information obtained from bio.tools and make sure that it is correct
+  nucleic_acid_sequence_(raw):
+    - - meta:
+          type: map
+          description:
+            Groovy Map containing sample information. e.g. `[ id:'sample1'
+            ]`
+      - "*.{fastq-like}":
+          type: file
+          description: nucleic_acid_sequence_(raw) file
+          pattern: "*.{fastq-like}"
+          ontologies:
+            - edam: http://edamontology.org/data_2975 # Nucleic acid sequence (raw)
+            - edam: http://edamontology.org/format_2545 # FASTQ-like format
+  versions_itsxpress:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - itsxpress:
+          type: string
+          description: The name of the tool
+      - itsxpress --version:
+          type: eval
+          description: The expression to obtain the version of the tool
+topics:
+  versions:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - itsxpress:
+          type: string
+          description: The name of the tool
+      - itsxpress --version:
+          type: eval
+          description: The expression to obtain the version of the tool
+authors:
+  - "@ChristopherBurgess-USDA"
+maintainers:
+  - "@ChristopherBurgess-USDA"
