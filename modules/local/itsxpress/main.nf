@@ -28,11 +28,11 @@ process ITSXPRESS {
     input:
     // TODO nf-core: Update the information obtained from bio.tools and make sure that it is correct
     
-    tuple val(meta), path(nucleic_acid_sequence_(raw))
+    tuple val(meta), path(reads)
 
     output:
     // TODO nf-core: Update the information obtained from bio.tools and make sure that it is correct
-    tuple val(meta), path("*.{fastq-like}"), emit: nucleic_acid_sequence_(raw)
+    tuple val(meta), path("*.{fastq}"), emit: fastq
     // TODO nf-core: Update the command here to obtain the version number of the software used in this module
     // TODO nf-core: If multiple software packages are used in this module, all MUST be added here
     //               by copying the line below and replacing the current tool with the extra tool(s)
@@ -42,38 +42,21 @@ process ITSXPRESS {
     task.ext.when == null || task.ext.when
 
     script:
-    def args = task.ext.args ?: ''
+    def args = task.ext.args ?: '' // added in ITS2 region to modules.config
     def prefix = task.ext.prefix ?: "${meta.id}"
-    // TODO nf-core: Where possible, a command MUST be provided to obtain the version number of the software e.g. 1.10
-    //               If the software is unable to output a version number on the command-line then it can be manually specified
-    //               e.g. https://github.com/nf-core/modules/blob/master/modules/nf-core/homer/annotatepeaks/main.nf
-    //               Each software used MUST provide the software name and version number in the YAML version file (versions.yml)
-    // TODO nf-core: It MUST be possible to pass additional parameters to the tool as a command-line string via the "task.ext.args" directive
-    // TODO nf-core: If the tool supports multi-threading then you MUST provide the appropriate parameter
-    //               using the Nextflow "task" variable e.g. "--threads $task.cpus"
-    // TODO nf-core: Please replace the example samtools command below with your module's command
-    // TODO nf-core: Please indent the command appropriately (4 spaces!!) to help with readability ;)
-    """
-    itsxpress \\
-        $args \\
-        -@ $task.cpus \\
-        -o ${prefix}.fastq-like \\
-        $nucleic_acid_sequence_(raw) \\
+    def input_command = "--fastq" + reads.collect{ " ${it}" }.join(" --fastq2")
+    def reads_out = reads.withIndex().collect { entry, index -> [ entry, "itsxpress_${prefix}_${index + 1}.${entry.extension}" ] }.collect{ _in_name, out_name -> out_name }
+    def output_command = "--outfile" + reads_out.collect{ " ${it}" }.join(" --outfile2")
+    
     """
 
-    stub:
-    def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: "${meta.id}"
-    // TODO nf-core: A stub section should mimic the execution of the original module as best as possible
-    //               Have a look at the following examples:
-    //               Simple example: https://github.com/nf-core/modules/blob/818474a292b4860ae8ff88e149fbcda68814114d/modules/nf-core/bcftools/annotate/main.nf#L47-L63
-    //               Complex example: https://github.com/nf-core/modules/blob/818474a292b4860ae8ff88e149fbcda68814114d/modules/nf-core/bedtools/split/main.nf#L38-L54
-    // TODO nf-core: If the module doesn't use arguments ($args), you SHOULD remove:
-    //               - The definition of args `def args = task.ext.args ?: ''` above.
-    //               - The use of the variable in the script `echo $args ` below.
-    """
-    echo $args
-    
-    touch ${prefix}.fastq-like
+    ## Need to check syntax for 
+   
+    itsxpress \\
+        $args \\ 
+        -threads $task.cpus \\
+        $input_command \\
+        $output_command \\
+        --log ${prefix}_itsxpress.log
     """
 }
