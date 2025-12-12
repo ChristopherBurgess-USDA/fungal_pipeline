@@ -1,16 +1,12 @@
 # nf-core/fungal_pipeline: Changelog
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-
-## v1.0.0dev - [date]
-
-Initial release of nf-core/fungal_pipeline, created with the [nf-core](https://nf-co.re/) template.
+## 2025-12-12
 
 ### `Added`
 
-### `Fixed`
-
-### `Dependencies`
+- Added in itxpress module using `nf-core module create` function. Paired end reads are hard coded in so it will break when non paired in reads are used.
+- Removed a lot of the TODOs generated from `nf-core workflows create` was used as it really isn't neccessary for this demo.
 
 ### `Deprecated`
+
+- Removed calls for old modules I wrote for my original practice
