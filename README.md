@@ -1,17 +1,5 @@
 # Fungal Pipeline (Nextflow/nf-core Demo)
 
-[![Open in GitHub Codespaces](https://img.shields.io/badge/Open_In_GitHub_Codespaces-black?labelColor=grey&logo=github)](https://github.com/codespaces/new/nf-core/fungal_pipeline)
-[![GitHub Actions CI Status](https://github.com/nf-core/fungal_pipeline/actions/workflows/nf-test.yml/badge.svg)](https://github.com/nf-core/fungal_pipeline/actions/workflows/nf-test.yml)
-[![GitHub Actions Linting Status](https://github.com/nf-core/fungal_pipeline/actions/workflows/linting.yml/badge.svg)](https://github.com/nf-core/fungal_pipeline/actions/workflows/linting.yml)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.XXXXXXX-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.XXXXXXX)
-[![nf-test](https://img.shields.io/badge/unit_tests-nf--test-337ab7.svg)](https://www.nf-test.com)
-
-[![Nextflow](https://img.shields.io/badge/version-%E2%89%A525.04.0-green?style=flat&logo=nextflow&logoColor=white&color=%230DC09D&link=https%3A%2F%2Fnextflow.io)](https://www.nextflow.io/)
-[![nf-core template version](https://img.shields.io/badge/nf--core_template-3.5.1-green?style=flat&logo=nfcore&logoColor=white&color=%2324B064&link=https%3A%2F%2Fnf-co.re)](https://github.com/nf-core/tools/releases/tag/3.5.1)
-[![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
-[![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
-[![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
-[![Launch on Seqera Platform](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Seqera%20Platform-%234256e7)](https://cloud.seqera.io/launch?pipeline=https://github.com/nf-core/fungal_pipeline)
-
 ## Introduction
 
 This pipeline is strictly an exercise to refresh my nextflow knowledge and build upon it by transcribing one of my existing pipelines into nextflow.
@@ -24,10 +12,6 @@ Instead of sequencing highly conserved regions of (such as 16S rRNA), fungal amp
 
 Here I use `itsxpress` to target the ITS2 region for 2 different paired-end sequencing runs which are part of the same experiment.
 
-## Input data
-
-The input data is the results of 2 different paired end sequencing runs. Due to sequencing batch effects, the sequencing runs keep to be kept separate even though sample ids overlap across runs. There is a mapping file (`csv`) containing which sequencing run, sample id, location of forward reads, and location of reverse reads.
-
 ## Pipeline Outline
 
 The pipeline is broken into 3 steps:
@@ -36,13 +20,12 @@ The pipeline is broken into 3 steps:
 2) Generate a `fastqc` report for the forward and reverse reads for each sequencing run/sample id combination.
 3) Using `multiqc` generate an sequencing quality report for the forward and reverse reads on each sequencing run.
 
-
 ## TODO
 
 - [X] add in the `itsxpress` module to the `subworkflows/local/utils_nfcore_fungal_pipeline_pipeline/main.nf` and fill in TODO
 - [X] Call `nf-core` `fastqc` and `multiqc` modules and fill in relevant info
-- [ ] Write a `config` file for the `nf-core ampliseq` pipeline for its2 amplicon sequencing
-- [ ] write `R` script to parse output and format to desired ouput and set it up in the `bin/` folder
+- [ ] Update config file to run on SLURM HPC with ceres specific options.
+- [ ] Write a test profile options for `itsxpress` process.
 
 ## Citations
 
